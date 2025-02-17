@@ -38,7 +38,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
   const [searchValue] = useSearchValue();
 
   const isMailSelected = message.id === mail.selected;
-  const isMailBulkSelected = mail.bulkSelected?.includes(message.id);
+  const isMailBulkSelected = mail.bulkSelected.includes(message.id);
 
   const highlightText = (text: string, highlight: string) => {
     if (!highlight?.trim()) return text;
@@ -134,7 +134,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
       key={message.id}
       className={cn(
         "group flex cursor-pointer flex-col items-start p-3.5 text-left text-sm transition-all hover:bg-accent",
-        message.unread && "",
+        !message.unread && "opacity-70",
         isMailSelected ? "border-border bg-accent" : "",
         isMailBulkSelected && "bg-muted shadow-[inset_5px_0_0_-1px_hsl(var(--primary))]",
         isCompact && "py-2",
@@ -193,8 +193,8 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
 
   const handleMailClick = (message: InitialThread) => {
     if (selectMode === "mass") {
-      const updatedBulkSelected = mail.bulkSelected?.includes(message.id)
-        ? mail.bulkSelected?.filter((id) => id !== message.id)
+      const updatedBulkSelected = mail.bulkSelected.includes(message.id)
+        ? mail.bulkSelected.filter((id) => id !== message.id)
         : [...mail.bulkSelected, message.id];
 
       setMail({ ...mail, bulkSelected: updatedBulkSelected });
@@ -203,7 +203,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
 
     if (selectMode === "range") {
       const lastSelectedItem =
-        mail.bulkSelected[mail.bulkSelected?.length - 1] ?? mail.selected ?? message.id;
+        mail.bulkSelected[mail.bulkSelected.length - 1] ?? mail.selected ?? message.id;
 
       // Get the index range between last selected and current
       const mailsIndex = items.map((m) => m.id);
