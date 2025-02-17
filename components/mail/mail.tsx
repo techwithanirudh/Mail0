@@ -134,7 +134,7 @@ export function Mail({ folder }: MailProps) {
                       <SidebarToggle className="h-fit px-2" />
                       <ComposeButton />
                     </div>
-                    {mail.bulkSelected?.length === 0 ? (
+                    {mail.bulkSelected.length === 0 ? (
                       <>
                         <SearchBar />
                         <div className="flex items-center space-x-1.5">
@@ -166,7 +166,7 @@ export function Mail({ folder }: MailProps) {
                       <>
                         <div className="flex items-center">
                           <span className="text-sm tabular-nums text-muted-foreground">
-                            {mail.bulkSelected?.length} selected
+                            {mail.bulkSelected.length} selected
                           </span>
                           <Tooltip>
                             <TooltipTrigger asChild>
