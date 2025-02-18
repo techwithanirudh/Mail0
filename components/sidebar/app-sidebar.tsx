@@ -2,15 +2,15 @@
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
+import { SidebarContent as AppSidebarContent } from "./sidebar-content";
+import { SidebarThemeSwitch } from "../theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
-import { SidebarThemeSwitch } from "./sidebar-theme-switch";
 import React, { useMemo, useRef, useState } from "react";
 import { navigationConfig } from "@/config/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
-import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import useSWR from "swr";
 
@@ -72,7 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             transition={{ duration: 0.2 }}
             className="flex-1"
           >
-            <NavMain items={navItems} />
+            <AppSidebarContent items={navItems} />
           </motion.div>
         </AnimatePresence>
         <div className="p-3">
