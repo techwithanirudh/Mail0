@@ -38,7 +38,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
   const [searchValue] = useSearchValue();
 
   const isMailSelected = message.id === mail.selected;
-  const isMailBulkSelected = mail.bulkSelected?.includes(message.id);
+  const isMailBulkSelected = mail.bulkSelected.includes(message.id);
 
   const highlightText = (text: string, highlight: string) => {
     if (!highlight?.trim()) return text;
