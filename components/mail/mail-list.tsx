@@ -9,8 +9,14 @@ import { useSession } from "@/lib/auth-client";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatDate } from "@/lib/utils";
 import { InitialThread } from "@/types";
+import type { ReactNode } from "react";
 
 interface MailListProps {
+  accounts: {
+    label: string;
+    email: string;
+    icon: ReactNode;
+  }[];
   items: InitialThread[];
   isCompact?: boolean;
   folder: string;
@@ -180,7 +186,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
   );
 };
 
-export function MailList({ items, isCompact, folder }: MailListProps) {
+export function MailList({ items, isCompact, accounts, folder }: MailListProps) {
   const [mail, setMail] = useMail();
 
   const massSelectMode = useKeyPressed(["Control", "Meta"]);
@@ -234,7 +240,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
 
   const isEmpty = items.length === 0;
 
-  if (isEmpty) {
+  if (accounts.length === 0) {
     return <EmptyState folder={folder as FolderType} className="min-h-[90vh] md:min-h-[90vh]" />;
   }
 
