@@ -190,8 +190,8 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
 
   const handleMailClick = (message: InitialThread) => {
     if (selectMode === "mass") {
-      const updatedBulkSelected = mail.bulkSelected?.includes(message.id)
-        ? mail.bulkSelected?.filter((id) => id !== message.id)
+      const updatedBulkSelected = mail.bulkSelected.includes(message.id)
+        ? mail.bulkSelected.filter((id) => id !== message.id)
         : [...mail.bulkSelected, message.id];
 
       setMail({ ...mail, bulkSelected: updatedBulkSelected });
@@ -200,7 +200,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
 
     if (selectMode === "range") {
       const lastSelectedItem =
-        mail.bulkSelected[mail.bulkSelected?.length - 1] ?? mail.selected ?? message.id;
+        mail.bulkSelected[mail.bulkSelected.length - 1] ?? mail.selected ?? message.id;
 
       // Get the index range between last selected and current
       const mailsIndex = items.map((m) => m.id);
