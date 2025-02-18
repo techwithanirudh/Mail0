@@ -2,7 +2,8 @@
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
-import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
+import { SidebarContent as AppSidebarContent } from "./sidebar-content";
+import { SidebarThemeSwitch } from "../theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { navigationConfig } from "@/config/navigation";
 import { motion, AnimatePresence } from "motion/react";
@@ -10,9 +11,8 @@ import React, { useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
-import { NavMain } from "./nav-main";
+import { Button } from "../ui/button";
 import { NavUser } from "./nav-user";
-import { Button } from "./button";
 import useSWR from "swr";
 
 const fetchStats = async () => {
@@ -24,12 +24,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   const { currentSection, navItems } = useMemo(() => {
-    // Find which section we're in based on the pathname
-    const section = Object.entries(navigationConfig).find(([_, config]) =>
-      pathname.startsWith(config.path),
-    );
+    const section = Object.entries(navigationConfig)
+      .filter(([, config]) => pathname.startsWith(config.path))
+      .sort((a, b) => b[1].path.length - a[1].path.length)
+      .find(([, config]) => pathname !== config.path);
 
-    const currentSection = section?.[0] || "mail";
+    const currentSection: string = section ? section[0] : "mail";
     const items = [...navigationConfig[currentSection].sections];
 
     if (currentSection === "mail" && stats) {
@@ -73,7 +73,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             transition={{ duration: 0.2 }}
             className="flex-1"
           >
-            <NavMain items={navItems} />
+            <AppSidebarContent items={navItems} />
           </motion.div>
         </AnimatePresence>
         <div className="p-3">

@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRef, useEffect, useMemo } from "react";
+import { isActive } from "@/lib/is-active";
+import { useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import Link from "next/link";
@@ -28,7 +29,7 @@ interface NavItemProps {
   }>;
 }
 
-interface NavMainProps {
+interface SidebarContentProps {
   items: {
     title: string;
     items: NavItemProps[];
@@ -40,7 +41,7 @@ type IconRefType = SVGSVGElement & {
   stopAnimation?: () => void;
 };
 
-export function NavMain({ items }: NavMainProps) {
+export function SidebarContent({ items }: SidebarContentProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -56,26 +57,6 @@ export function NavMain({ items }: NavMainProps) {
       });
     });
   }, [items]);
-
-  // Checks if the given URL matches the current URL path and required search parameters.
-  const isUrlActive = useMemo(() => {
-    return (url: string) => {
-      const urlObj = new URL(url, window.location.origin);
-      const cleanPath = pathname.replace(/\/$/, "");
-      const cleanUrl = urlObj.pathname.replace(/\/$/, "");
-
-      if (cleanPath !== cleanUrl) return false;
-
-      const urlParams = new URLSearchParams(urlObj.search);
-      const currentParams = new URLSearchParams(searchParams);
-
-      for (const [key, value] of urlParams) {
-        if (currentParams.get(key) !== value) return false;
-      }
-
-      return true;
-    };
-  }, [pathname, searchParams]);
 
   return (
     <nav className="space-y-2.5">
@@ -95,7 +76,7 @@ export function NavMain({ items }: NavMainProps) {
                     onClick={item.onClick}
                     className={cn(
                       "flex items-center justify-between rounded-lg px-1.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-                      (item.isActive || isUrlActive(item.url)) &&
+                      (item.isActive || isActive(item.url, pathname, searchParams)) &&
                         "bg-accent/90 font-semibold text-accent-foreground",
                     )}
                     onMouseEnter={() => {
@@ -139,7 +120,8 @@ export function NavMain({ items }: NavMainProps) {
                           href={subItem.url}
                           className={cn(
                             "mx-1 flex items-center justify-between rounded-md px-1.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-                            subItem.isActive && "bg-accent font-bold text-accent-foreground",
+                            (subItem.isActive || isActive(subItem.url, pathname)) &&
+                              "bg-accent font-bold text-accent-foreground",
                           )}
                         >
                           {subItem.title}
