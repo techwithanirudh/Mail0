@@ -8,37 +8,37 @@ import Link from "next/link";
 const tabs = [
   {
     name: "General",
-    href: "/settings/general",
+    href: "/mail/settings/general",
     icon: Settings,
     description: "Account preferences and settings",
   },
   {
     name: "Connections",
-    href: "/settings/connections",
+    href: "/mail/settings/connections",
     icon: Mail,
     description: "Manage connected email accounts",
   },
   {
     name: "Security",
-    href: "/settings/security",
+    href: "/mail/settings/security",
     icon: Shield,
     description: "Password and authentication",
   },
   {
     name: "Appearance",
-    href: "/settings/appearance",
+    href: "/mail/settings/appearance",
     icon: Palette,
     description: "Customize your interface",
   },
   {
     name: "Shortcuts",
-    href: "/settings/shortcuts",
+    href: "/mail/settings/shortcuts",
     icon: Keyboard,
     description: "Keyboard shortcuts and hotkeys",
   },
   {
     name: "Notifications",
-    href: "/settings/notifications",
+    href: "/mail/settings/notifications",
     icon: Bell,
     description: "Manage your notifications",
   },

@@ -21,12 +21,12 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnPath = searchParams.get("from") || "/mail";
-  const mailPath = returnPath.startsWith("/settings") ? "/mail" : returnPath;
+  const mailPath = returnPath.startsWith("/mail/settings") ? "/mail" : returnPath;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <div className="mx-auto w-full max-w-[1600px] flex-1 p-4 pb-0 md:p-6 md:pb-0 lg:p-8 lg:pb-0">
-        <div className="sticky top-0 z-20 -mx-4 bg-background/95 px-4 pb-8 pt-4 backdrop-blur duration-200 supports-[backdrop-filter]:bg-background/60 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
+      <div className="mx-auto w-full flex-1 p-2 pb-0 md:p-4 md:pb-0 lg:p-6 lg:pb-0">
+        <div className="sticky top-0 z-20 -mx-4 bg-background/95 px-4 pb-8 backdrop-blur duration-200 supports-[backdrop-filter]:bg-background/60 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
@@ -59,34 +59,15 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </div>
-
-      <footer className="mt-auto border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto max-w-[1600px] px-4 py-4 md:px-6 md:py-5 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground md:text-sm">
-            <span className="font-medium">Mail0 Build #00000</span>
-            <div className="flex items-center gap-3">
-              <Link href="/privacy" className="transition-colors hover:text-foreground">
-                Privacy
-              </Link>
-              <div className="h-3 w-[1px] bg-border" />
-              <Link href="/terms" className="transition-colors hover:text-foreground">
-                Terms
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
 
-// Basic skeleton component while the layout loads
 function SettingsLayoutSkeleton() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <div className="mx-auto w-full max-w-[1600px] flex-1 p-4 pb-0 md:p-6 md:pb-0 lg:p-8 lg:pb-0">
         <div className="animate-pulse">
-          {/* Add skeleton UI here */}
           <div className="h-8 w-24 rounded bg-muted" />
         </div>
       </div>

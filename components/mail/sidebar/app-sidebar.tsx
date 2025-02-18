@@ -1,27 +1,27 @@
 "use client";
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
-import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
-import { SidebarThemeSwitch } from "../theme/sidebar-theme-switcher";
+import { SquarePenIcon, SquarePenIconHandle } from "../../icons/animated/square-pen";
+import { SidebarThemeSwitch } from "../../theme/sidebar-theme-switcher";
+import { SettingsGearIcon } from "../../icons/animated/settings-gear";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
-import { SettingsGearIcon } from "../icons/animated/settings-gear";
-import { CheckCheckIcon } from "../icons/animated/check-check";
-import { MessageCircleIcon } from "../icons/animated/message";
-import { BookTextIcon } from "../icons/animated/book-text";
+import { CheckCheckIcon } from "../../icons/animated/check-check";
+import { MessageCircleIcon } from "../../icons/animated/message";
+import { BookTextIcon } from "../../icons/animated/book-text";
+import { ArchiveIcon } from "../../icons/animated/archive";
 import React, { useMemo, useRef, useState } from "react";
-import { ArchiveIcon } from "../icons/animated/archive";
-import { UsersIcon } from "../icons/animated/users";
-import { InboxIcon } from "../icons/animated/inbox";
-import { CartIcon } from "../icons/animated/cart";
-import { BellIcon } from "../icons/animated/bell";
+import { UsersIcon } from "../../icons/animated/users";
+import { InboxIcon } from "../../icons/animated/inbox";
+import { CartIcon } from "../../icons/animated/cart";
+import { BellIcon } from "../../icons/animated/bell";
+import { XIcon } from "../../icons/animated/x";
 import { usePathname } from "next/navigation";
-import { XIcon } from "../icons/animated/x";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
 import { ChevronDown } from "lucide-react";
+import { Button } from "../../ui/button";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import { Button } from "./button";
 import useSWR from "swr";
 
 const fetchStats = async () => {
@@ -29,10 +29,10 @@ const fetchStats = async () => {
 };
 
 const settingsPages = [
-  { title: "General", url: "/settings/general" },
-  { title: "Connections", url: "/settings/connections" },
-  { title: "Appearance", url: "/settings/appearance" },
-  { title: "Shortcuts", url: "/settings/shortcuts" },
+  { title: "General", url: "/mail/settings/general" },
+  { title: "Connections", url: "/mail/settings/connections" },
+  { title: "Appearance", url: "/mail/settings/appearance" },
+  { title: "Shortcuts", url: "/mail/settings/shortcuts" },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -108,7 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: "Settings",
-            url: "/settings",
+            url: "/mail/settings",
             icon: SettingsGearIcon,
             isExpanded: isSettingsOpen,
             onClick: (e: React.MouseEvent) => {

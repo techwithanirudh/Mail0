@@ -18,8 +18,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/settings",
-        destination: "/settings/general",
+        source: "/mail/settings",
+        destination: "/mail/settings/general",
         permanent: true,
       },
       {
