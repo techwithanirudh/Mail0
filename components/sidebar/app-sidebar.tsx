@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
+import { Button } from "../ui/button";
 import { NavUser } from "./nav-user";
 import useSWR from "swr";
 
@@ -23,12 +24,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   const { currentSection, navItems } = useMemo(() => {
-    // Find which section we're in based on the pathname
-    const section = Object.entries(navigationConfig).find(([_, config]) =>
-      pathname.startsWith(config.path),
-    );
+    const section = Object.entries(navigationConfig)
+      .filter(([_, config]) => pathname.startsWith(config.path))
+      .sort((a, b) => b[1].path.length - a[1].path.length)
+      .find(([_, config]) => pathname !== config.path);
 
-    const currentSection = section?.[0] || "mail";
+    const currentSection: string = section ? section[0] : "mail";
     const items = [...navigationConfig[currentSection].sections];
 
     if (currentSection === "mail" && stats) {
