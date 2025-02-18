@@ -16,7 +16,7 @@ export function SettingsCard({
   className,
 }: SettingsCardProps) {
   return (
-    <Card className={cn("w-full", className)}>
+    <Card className={cn("w-full rounded-2xl", className)}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
