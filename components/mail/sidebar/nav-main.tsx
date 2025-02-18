@@ -76,7 +76,7 @@ export function NavMain({ items }: NavMainProps) {
                     onClick={item.onClick}
                     className={cn(
                       "flex items-center justify-between rounded-lg px-1.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-                      (item.isActive || isActive(item.url, pathname)) &&
+                      (item.isActive || isActive(item.url, pathname, searchParams)) &&
                         "bg-accent/90 font-semibold text-accent-foreground",
                     )}
                     onMouseEnter={() => {

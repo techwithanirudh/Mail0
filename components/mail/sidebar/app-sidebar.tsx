@@ -33,6 +33,7 @@ const settingsPages = [
   { title: "Connections", url: "/mail/settings/connections" },
   { title: "Appearance", url: "/mail/settings/appearance" },
   { title: "Shortcuts", url: "/mail/settings/shortcuts" },
+  { title: "Notifications", url: "/mail/settings/notifications" },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
