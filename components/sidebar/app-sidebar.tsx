@@ -1,26 +1,16 @@
 "use client";
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
-import { SquarePenIcon, SquarePenIconHandle } from "@/components/icons/animated/square-pen";
-import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
-import { SettingsGearIcon } from "@/components/icons/animated/settings-gear";
-import { CheckCheckIcon } from "@/components/icons/animated/check-check";
-import { MessageCircleIcon } from "@/components/icons/animated/message";
-import { SidebarContent as AppSidebarContent } from "./sidebar-content";
-import { BookTextIcon } from "@/components/icons/animated/book-text";
+import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
-import { ArchiveIcon } from "@/components/icons/animated/archive";
-import { UsersIcon } from "@/components/icons/animated/users";
-import { InboxIcon } from "@/components/icons/animated/inbox";
-import { CartIcon } from "@/components/icons/animated/cart";
-import { BellIcon } from "@/components/icons/animated/bell";
+import { SidebarThemeSwitch } from "./sidebar-theme-switch";
 import React, { useMemo, useRef, useState } from "react";
-import { XIcon } from "@/components/icons/animated/x";
-import { Button } from "@/components/ui/button";
+import { navigationConfig } from "@/config/navigation";
+import { motion, AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
-import { ChevronDown } from "lucide-react";
+import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import useSWR from "swr";
 
@@ -28,124 +18,63 @@ const fetchStats = async () => {
   return await $fetch("/api/v1/mail/count?", { baseURL: BASE_URL }).then((e) => e.data as number[]);
 };
 
-const settingsPages = [
-  { title: "General", url: "/mail/settings/general" },
-  { title: "Connections", url: "/mail/settings/connections" },
-  { title: "Appearance", url: "/mail/settings/appearance" },
-  { title: "Shortcuts", url: "/mail/settings/shortcuts" },
-  { title: "Notifications", url: "/mail/settings/notifications" },
-];
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: stats } = useSWR<number[]>("/api/v1/mail/count", fetchStats);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const pathname = usePathname();
 
-  const navItems = useMemo(
-    () => [
-      {
-        title: "",
-        items: [
-          {
-            title: "Inbox",
-            url: "/mail/inbox",
-            icon: InboxIcon,
-            badge: stats?.[0] ?? 0,
-          },
-          {
-            title: "Drafts",
-            url: "/mail/draft",
-            icon: BookTextIcon,
-          },
-          {
-            title: "Sent",
-            url: "/mail/sent",
-            icon: CheckCheckIcon,
-          },
-          {
-            title: "Spam",
-            url: "/mail/spam",
-            icon: XIcon,
-            badge: stats?.[1] ?? 0,
-          },
-          {
-            title: "Archive",
-            url: "/mail/archive",
-            icon: ArchiveIcon,
-          },
-        ],
-      },
-      {
-        title: "Categories",
-        items: [
-          {
-            title: "Social",
-            url: "/mail/inbox?category=social",
-            icon: UsersIcon,
-            badge: 972,
-          },
-          {
-            title: "Updates",
-            url: "/mail/inbox?category=updates",
-            icon: BellIcon,
-            badge: 342,
-          },
-          {
-            title: "Forums",
-            url: "/mail/inbox?category=forums",
-            icon: MessageCircleIcon,
-            badge: 128,
-          },
-          {
-            title: "Shopping",
-            url: "/mail/inbox?category=shopping",
-            icon: CartIcon,
-            badge: 8,
-          },
-        ],
-      },
-      {
-        title: "Advanced",
-        items: [
-          {
-            title: "Settings",
-            url: "/mail/settings",
-            icon: SettingsGearIcon,
-            isExpanded: isSettingsOpen,
-            onClick: (e: React.MouseEvent) => {
-              e.preventDefault();
-              setIsSettingsOpen(!isSettingsOpen);
-            },
-            suffix: ChevronDown,
-            subItems: settingsPages.map((page) => ({
-              title: page.title,
-              url: `${page.url}?from=${pathname}`,
-            })),
-          },
-          // {
-          //   title: "Analytics",
-          //   url: "/mail/under-construction/analytics",
-          //   icon: ChartLine,
-          // },
-          // {
-          //   title: "Developers",
-          //   url: "/mail/under-construction/developers",
-          //   icon: Code,
-          // },
-        ],
-      },
-    ],
-    [stats, isSettingsOpen, pathname],
-  );
+  const { currentSection, navItems } = useMemo(() => {
+    // Find which section we're in based on the pathname
+    const section = Object.entries(navigationConfig).find(([_, config]) =>
+      pathname.startsWith(config.path),
+    );
+
+    const currentSection = section?.[0] || "mail";
+    let items = [...navigationConfig[currentSection].sections];
+
+    if (currentSection === "mail" && stats) {
+      if (items[0]?.items[0]) {
+        items[0].items[0].badge = stats[0] ?? 0;
+      }
+      if (items[0]?.items[3]) {
+        items[0].items[3].badge = stats[1] ?? 0;
+      }
+    }
+
+    return { currentSection, navItems: items };
+  }, [pathname, stats]);
+
+  const showComposeButton = currentSection === "mail";
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="flex items-center justify-between gap-4 p-3">
+      <SidebarHeader className="flex flex-col gap-2 p-2">
         <NavUser />
-        <ComposeButton />
+        <AnimatePresence mode="wait">
+          {showComposeButton && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ComposeButton />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </SidebarHeader>
       <SidebarContent className="justify-between">
-        <AppSidebarContent items={navItems} />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSection}
+            initial={{ opacity: 0, x: currentSection === "mail" ? -20 : 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: currentSection === "mail" ? 20 : -20 }}
+            transition={{ duration: 0.2 }}
+            className="flex-1"
+          >
+            <NavMain items={navItems} />
+          </motion.div>
+        </AnimatePresence>
         <div className="p-3">
           <SidebarThemeSwitch />
         </div>
@@ -163,7 +92,7 @@ function ComposeButton() {
   return (
     <Button
       onClick={open}
-      className="h-8 w-full justify-start"
+      className="mx-1 h-8 w-[calc(100%-8px)] justify-start px-2"
       onMouseEnter={() => {
         const icon = iconRef.current;
         if (icon?.startAnimation) {
@@ -177,8 +106,8 @@ function ComposeButton() {
         }
       }}
     >
-      <SquarePenIcon ref={iconRef} />
-      Compose
+      <SquarePenIcon ref={iconRef} className="mr-2 size-4" />
+      <span className="text-sm">Compose</span>
     </Button>
   );
 }
