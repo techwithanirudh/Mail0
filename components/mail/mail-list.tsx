@@ -232,7 +232,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
     }
   };
 
-  const isEmpty = accounts?.length === 0;
+  const isEmpty = items.length === 0;
 
   if (isEmpty) {
     return <EmptyState folder={folder as FolderType} className="min-h-[90vh] md:min-h-[90vh]" />;
