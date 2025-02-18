@@ -6,6 +6,7 @@ import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
 import { SettingsGearIcon } from "@/components/icons/animated/settings-gear";
 import { CheckCheckIcon } from "@/components/icons/animated/check-check";
 import { MessageCircleIcon } from "@/components/icons/animated/message";
+import { SidebarContent as AppSidebarContent } from "./sidebar-content";
 import { BookTextIcon } from "@/components/icons/animated/book-text";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { ArchiveIcon } from "@/components/icons/animated/archive";
@@ -20,7 +21,6 @@ import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
 import { ChevronDown } from "lucide-react";
-import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import useSWR from "swr";
 
@@ -145,7 +145,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <ComposeButton />
       </SidebarHeader>
       <SidebarContent className="justify-between">
-        <NavMain items={navItems} />
+        <AppSidebarContent items={navItems} />
         <div className="p-3">
           <SidebarThemeSwitch />
         </div>

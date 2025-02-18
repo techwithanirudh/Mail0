@@ -29,7 +29,7 @@ interface NavItemProps {
   }>;
 }
 
-interface NavMainProps {
+interface SidebarContentProps {
   items: {
     title: string;
     items: NavItemProps[];
@@ -41,7 +41,7 @@ type IconRefType = SVGSVGElement & {
   stopAnimation?: () => void;
 };
 
-export function NavMain({ items }: NavMainProps) {
+export function SidebarContent({ items }: SidebarContentProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
