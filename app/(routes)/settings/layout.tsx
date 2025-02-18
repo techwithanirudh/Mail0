@@ -2,6 +2,8 @@
 
 import { SidebarToggle } from "@/components/ui/sidebar-toggle";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { navigationConfig } from "@/config/navigation";
+import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
@@ -13,9 +15,11 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 }
 
 function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <div className="flex h-full w-full flex-col overflow-hidden overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
-      <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 bg-background p-2 backdrop-blur-md">
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 bg-card p-2 backdrop-blur-md">
         <SidebarToggle className="h-fit px-2" />
         <h1 className="flex-1 text-center text-sm font-medium capitalize">Settings</h1>
       </div>
