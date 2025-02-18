@@ -3,7 +3,7 @@
 import { SidebarToggle } from "@/components/ui/sidebar-toggle";
 import { ScrollArea } from "@/components/ui/scroll-area";
 // import { navigationConfig } from "@/config/navigation";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
