@@ -23,9 +23,7 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
       <div className="mx-auto w-full flex-1 pb-0 md:px-2 md:pb-0 lg:px-4 lg:pb-0">
         <div className="flex flex-col gap-8 pt-4 md:flex-row">
           <div className="flex-1">
-            <ScrollArea className="h-[calc(100vh-360px)] pb-4 md:h-[calc(100vh-320px)]">
-              {children}
-            </ScrollArea>
+            <ScrollArea className="h-full pb-4">{children}</ScrollArea>
           </div>
         </div>
       </div>
