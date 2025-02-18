@@ -1,7 +1,8 @@
 "use client";
 
-import { Github, Book, Users, Terminal, Code2, Webhook, ArrowRight, ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Book, Users, Terminal, Code2, Webhook, ArrowRight, ArrowLeft } from "lucide-react";
+import { GitHub } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,7 +22,7 @@ const developerResources = [
     title: "GitHub",
     description: "Open source repositories",
     details: "Access our source code, contribute, and track issues.",
-    icon: Github,
+    icon: GitHub,
     href: "https://github.com",
     linkText: "View Repository",
     color: "text-purple-500",
