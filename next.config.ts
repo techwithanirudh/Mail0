@@ -21,8 +21,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/mail/settings",
-        destination: "/mail/settings/general",
+        source: "/settings",
+        destination: "/settings/general",
         permanent: true,
       },
       {

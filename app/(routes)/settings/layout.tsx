@@ -18,26 +18,12 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 
 function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const returnPath = searchParams.get("from") || "/mail";
-  const mailPath = returnPath.startsWith("/mail/settings") ? "/mail" : returnPath;
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
       <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 p-2">
         <SidebarToggle className="h-fit px-2" />
         <h1 className="flex-1 text-center text-sm font-medium capitalize">Settings</h1>
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push(mailPath)}
-            className="gap-2 text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Button>
-        </div>
       </div>
 
       <div className="mx-auto w-full flex-1 pb-0 md:px-2 md:pb-0 lg:px-4 lg:pb-0">

@@ -99,7 +99,7 @@ export const navigationConfig: Record<string, NavConfig> = {
         items: [
           {
             title: "Settings",
-            url: "/mail/settings",
+            url: "/settings",
             icon: SettingsGearIcon,
           },
         ],
@@ -107,7 +107,7 @@ export const navigationConfig: Record<string, NavConfig> = {
     ],
   },
   settings: {
-    path: "/mail/settings",
+    path: "/settings",
     sections: [
       {
         title: "",
@@ -125,32 +125,32 @@ export const navigationConfig: Record<string, NavConfig> = {
         items: [
           {
             title: "General",
-            url: "/mail/settings/general",
+            url: "/settings/general",
             icon: Settings,
           },
           {
             title: "Connections",
-            url: "/mail/settings/connections",
+            url: "/settings/connections",
             icon: Mail,
           },
           {
             title: "Security",
-            url: "/mail/settings/security",
+            url: "/settings/security",
             icon: Shield,
           },
           {
             title: "Appearance",
-            url: "/mail/settings/appearance",
+            url: "/settings/appearance",
             icon: Palette,
           },
           {
             title: "Shortcuts",
-            url: "/mail/settings/shortcuts",
+            url: "/settings/shortcuts",
             icon: Keyboard,
           },
           {
             title: "Notifications",
-            url: "/mail/settings/notifications",
+            url: "/settings/notifications",
             icon: Bell,
           },
         ],
