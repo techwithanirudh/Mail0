@@ -1,7 +1,6 @@
 "use client";
 
 import { SidebarToggle } from "@/components/ui/sidebar-toggle";
-import { SettingsNavigation } from "./settings-navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -43,10 +42,6 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
 
       <div className="mx-auto w-full flex-1 pb-0 md:px-2 md:pb-0 lg:px-4 lg:pb-0">
         <div className="flex flex-col gap-8 pt-4 md:flex-row">
-          <div className="md:sticky md:top-[15px] md:h-fit">
-            <SettingsNavigation />
-          </div>
-
           <div className="flex-1">
             <ScrollArea className="h-[calc(100vh-360px)] pb-4 md:h-[calc(100vh-320px)]">
               {children}
