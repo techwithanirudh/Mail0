@@ -13,7 +13,6 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
   return (
     <Suspense fallback={<SettingsLayoutSkeleton />}>
       <SettingsLayoutContent>{children}</SettingsLayoutContent>
-      {/* <SettingsLayoutSkeleton /> */}
     </Suspense>
   );
 }
