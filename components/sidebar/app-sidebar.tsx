@@ -25,9 +25,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const { currentSection, navItems } = useMemo(() => {
     const section = Object.entries(navigationConfig)
-      .filter(([_, config]) => pathname.startsWith(config.path))
+      .filter(([, config]) => pathname.startsWith(config.path))
       .sort((a, b) => b[1].path.length - a[1].path.length)
-      .find(([_, config]) => pathname !== config.path);
+      .find(([, config]) => pathname !== config.path);
 
     const currentSection: string = section ? section[0] : "mail";
     const items = [...navigationConfig[currentSection].sections];
