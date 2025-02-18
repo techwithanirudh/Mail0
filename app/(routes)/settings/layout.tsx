@@ -13,7 +13,6 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 }
 
 function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
-  // const pathname = usePathname();
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
