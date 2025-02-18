@@ -59,6 +59,8 @@ export function NavMain({ items }: NavMainProps) {
 
   // Checks if the given URL matches the current URL path and required search parameters.
   const isUrlActive = (url: string) => {
+    if (typeof window === "undefined") return false; // Ensure this runs only on client-side
+
     const urlObj = new URL(url, window.location.origin);
     const cleanPath = pathname.replace(/\/$/, "");
     const cleanUrl = urlObj.pathname.replace(/\/$/, "");
