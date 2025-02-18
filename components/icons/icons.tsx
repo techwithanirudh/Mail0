@@ -1,5 +1,4 @@
 import type { SVGProps } from "react";
-import { cn } from "@/lib/utils";
 
 export const Vercel = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -178,7 +177,7 @@ export const GitHub = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const Twitter = (props: SVGProps<SVGSVGElement>) => (
+export const Twitter = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"
