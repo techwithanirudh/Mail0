@@ -3,9 +3,7 @@
 import {
   Credenza,
   CredenzaBody,
-  CredenzaClose,
   CredenzaContent,
-  CredenzaFooter,
   CredenzaHeader,
   CredenzaTitle,
 } from "@/components/ui/responsive-modal";
