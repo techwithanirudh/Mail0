@@ -23,9 +23,9 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
   const mailPath = returnPath.startsWith("/mail/settings") ? "/mail" : returnPath;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
+    <div className="flex h-full w-full flex-col overflow-hidden overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
       <div className="mx-auto w-full flex-1 p-2 pb-0 md:p-4 md:pb-0 lg:p-6 lg:pb-0">
-        <div className="sticky top-0 z-20 -mx-4 bg-background/95 px-4 pb-8 backdrop-blur duration-200 supports-[backdrop-filter]:bg-background/60 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
+        <div className="sticky top-0 z-20 -mx-4 bg-card/95 px-4 pb-8 backdrop-blur duration-200 supports-[backdrop-filter]:bg-card/60 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
@@ -64,7 +64,7 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
 
 function SettingsLayoutSkeleton() {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
+    <div className="flex h-full w-full flex-col border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
       <div className="mx-auto w-full max-w-[1600px] flex-1 p-4 pb-0 md:p-6 md:pb-0 lg:p-8 lg:pb-0">
         <div className="animate-pulse">
           <div className="h-8 w-24 rounded bg-muted" />
