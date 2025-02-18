@@ -29,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     );
 
     const currentSection = section?.[0] || "mail";
-    let items = [...navigationConfig[currentSection].sections];
+    const items = [...navigationConfig[currentSection].sections];
 
     if (currentSection === "mail" && stats) {
       if (items[0]?.items[0]) {
