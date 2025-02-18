@@ -5,9 +5,9 @@ import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen
 import { SidebarContent as AppSidebarContent } from "./sidebar-content";
 import { SidebarThemeSwitch } from "../theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
-import React, { useMemo, useRef, useState } from "react";
 import { navigationConfig } from "@/config/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import React, { useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
