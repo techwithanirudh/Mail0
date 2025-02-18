@@ -45,7 +45,7 @@ interface MailProps {
   muted?: boolean;
 }
 
-export function Mail({ accounts, folder }: MailProps) {
+export function Mail({ folder }: MailProps) {
   const [searchValue] = useSearchValue();
   const [mail, setMail] = useMail();
   const [isCompact, setIsCompact] = useState(false);
@@ -238,7 +238,6 @@ export function Mail({ accounts, folder }: MailProps) {
                     items={threadsResponse?.threads || []}
                     isCompact={isCompact}
                     folder={folder}
-                    accounts={accounts}
                   />
                 )}
               </div>
