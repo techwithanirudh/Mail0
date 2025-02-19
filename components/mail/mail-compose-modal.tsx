@@ -3,9 +3,7 @@
 import {
   Credenza,
   CredenzaBody,
-  CredenzaClose,
   CredenzaContent,
-  CredenzaFooter,
   CredenzaHeader,
   CredenzaTitle,
 } from "@/components/ui/responsive-modal";
@@ -18,20 +16,15 @@ export default function MailComposeModal() {
 
   return (
     <Credenza open={isOpen} onOpenChange={setIsOpen}>
-      <CredenzaContent className="md:min-w-[500px]">
+      <CredenzaContent className="p-0">
         <VisuallyHidden>
           <CredenzaHeader>
             <CredenzaTitle>Compose</CredenzaTitle>
           </CredenzaHeader>
         </VisuallyHidden>
-        <CredenzaBody>
+        <CredenzaBody className="hide-scrollbar overflow-y-auto px-0 py-0">
           <MailCompose onClose={close} />
         </CredenzaBody>
-        <CredenzaFooter>
-          <CredenzaClose asChild>
-            <button>Close</button>
-          </CredenzaClose>
-        </CredenzaFooter>
       </CredenzaContent>
     </Credenza>
   );
