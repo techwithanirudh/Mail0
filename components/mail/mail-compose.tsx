@@ -38,6 +38,7 @@ import { draftsAtom } from "@/store/draftStates";
 import { useQueryState } from "nuqs";
 
 import { TooltipPortal } from "@radix-ui/react-tooltip";
+import { CredenzaClose } from "../ui/responsive-modal";
 import { Badge } from "../ui/badge";
 import { useAtom } from "jotai";
 
@@ -287,167 +288,169 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
   };
 
   return (
-    <>
-      <DialogTitle className="sr-only">Compose Email</DialogTitle>
-      <TooltipProvider>
-        <Card className="h-full w-full border-none shadow-none">
-          <CardHeader>
-            <CardTitle className="text-2xl font-semibold tracking-tight">New Message</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-2.5">
-              <div className="relative">
-                <Input
-                  tabIndex={1}
-                  placeholder="To"
-                  value={toInput}
-                  onChange={(e) => {
-                    setToInput(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                />
-                {showSuggestions && filteredSuggestions.length > 0 && (
-                  <ul className="absolute left-0 right-0 top-full z-10 mt-1 max-h-40 overflow-auto rounded-md border border-input bg-background shadow-lg">
-                    {filteredSuggestions.map((email, index) => (
-                      <li
-                        key={index}
-                        onClick={() => {
-                          setToInput(email);
-                          setShowSuggestions(false);
-                        }}
-                        className="cursor-pointer p-2 hover:bg-muted"
-                      >
-                        {email}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+    <TooltipProvider>
+      <Card className="h-full w-full border-none shadow-none">
+        <CardHeader className="flex flex-row justify-between">
+          <CardTitle className="text-2xl font-semibold tracking-tight">New Message</CardTitle>
+          <CredenzaClose asChild>
+            <Button
+              className="hidden h-5 w-5 flex-shrink-0 p-0 md:inline-flex"
+              size="sm"
+              variant="ghost"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </CredenzaClose>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-2.5 overflow-hidden">
+            <div className="relative">
               <Input
-                placeholder="Subject"
-                defaultValue={subject || ""}
-                onChange={(e) => setSubject(e.target.value)}
-                tabIndex={2}
-              />
-
-              <div className="flex justify-end">
-                <ToggleGroup type="multiple">
-                  <ToggleGroupItem tabIndex={3} value="bold" onClick={() => insertFormat("bold")}>
-                    <Bold className="h-4 w-4" />
-                  </ToggleGroupItem>
-                  <ToggleGroupItem
-                    tabIndex={4}
-                    value="italic"
-                    onClick={() => insertFormat("italic")}
-                  >
-                    <Italic className="h-4 w-4" />
-                  </ToggleGroupItem>
-                  <ToggleGroupItem tabIndex={5} value="list" onClick={() => insertFormat("list")}>
-                    <List className="h-4 w-4" />
-                  </ToggleGroupItem>
-                  <ToggleGroupItem
-                    tabIndex={6}
-                    value="ordered-list"
-                    onClick={() => insertFormat("ordered-list")}
-                  >
-                    <ListOrdered className="h-4 w-4" />
-                  </ToggleGroupItem>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    tabIndex={7}
-                    onClick={() => insertFormat("link")}
-                  >
-                    <Link2 className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    tabIndex={8}
-                    onClick={() => {
-                      const input = document.createElement("input");
-                      input.type = "file";
-                      input.accept = "image/*";
-                      input.onchange = (e) => {
-                        const file = (e.target as HTMLInputElement).files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = () => {
-                            insertFormat(`![${file.name}](${reader.result})`);
-                          };
-                          reader.readAsDataURL(file);
-                        }
-                      };
-                      input.click();
-                    }}
-                  >
-                    <ImageIcon className="h-4 w-4" />
-                  </Button>
-                </ToggleGroup>
-              </div>
-
-              <div
-                ref={editorRef}
-                contentEditable
-                className="min-h-[300px] w-full resize-none overflow-y-auto rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                role="textbox"
-                aria-multiline="true"
-                tabIndex={9}
-                style={{
-                  overflowWrap: "break-word",
-                  wordWrap: "break-word",
-                  whiteSpace: "pre-wrap",
-                  maxWidth: "100%",
-                }}
-                onInput={() => {
-                  setMessageContent(editorRef.current?.innerHTML || "");
+                tabIndex={1}
+                placeholder="To"
+                value={toInput}
+                onChange={(e) => {
+                  setToInput(e.target.value);
+                  setShowSuggestions(true);
                 }}
               />
+              {showSuggestions && filteredSuggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 top-full z-10 mt-1 max-h-40 overflow-auto rounded-md border border-input bg-background shadow-lg">
+                  {filteredSuggestions.map((email, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setToInput(email);
+                        setShowSuggestions(false);
+                      }}
+                      className="cursor-pointer p-2 hover:bg-muted"
+                    >
+                      {email}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <Input
+              placeholder="Subject"
+              defaultValue={subject || ""}
+              onChange={(e) => setSubject(e.target.value)}
+              tabIndex={2}
+            />
 
-              {renderAttachments()}
-              <div className="mt-4 flex justify-between">
-                <label>
-                  <Button
-                    tabIndex={10}
-                    variant="outline"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const fileInput = e.currentTarget.nextElementSibling as HTMLInputElement;
-                      fileInput?.click();
-                    }}
-                  >
-                    <Paperclip className="mr-2 h-4 w-4" />
-                    Attach files
-                  </Button>
-                  <Input type="file" className="hidden" multiple onChange={handleAttachment} />
-                </label>
-                <div className="flex gap-2">
-                  <Button
-                    tabIndex={11}
-                    variant="outline"
-                    onClick={() => {
-                      handleDraft();
-                      onClose();
-                    }}
-                  >
-                    Save as draft
-                  </Button>
-                  <Button
-                    tabIndex={12}
-                    onClick={() => {
-                      // TODO: Implement send functionality
-                      onClose();
-                    }}
-                  >
-                    Send
-                    <Send className="ml-2 h-3 w-3" />
-                  </Button>
-                </div>
+            <div className="flex max-w-full justify-end overflow-y-auto">
+              <ToggleGroup type="multiple">
+                <ToggleGroupItem tabIndex={3} value="bold" onClick={() => insertFormat("bold")}>
+                  <Bold className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem tabIndex={4} value="italic" onClick={() => insertFormat("italic")}>
+                  <Italic className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem tabIndex={5} value="list" onClick={() => insertFormat("list")}>
+                  <List className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  tabIndex={6}
+                  value="ordered-list"
+                  onClick={() => insertFormat("ordered-list")}
+                >
+                  <ListOrdered className="h-4 w-4" />
+                </ToggleGroupItem>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  tabIndex={7}
+                  onClick={() => insertFormat("link")}
+                >
+                  <Link2 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  tabIndex={8}
+                  onClick={() => {
+                    const input = document.createElement("input");
+                    input.type = "file";
+                    input.accept = "image/*";
+                    input.onchange = (e) => {
+                      const file = (e.target as HTMLInputElement).files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                          insertFormat(`![${file.name}](${reader.result})`);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    };
+                    input.click();
+                  }}
+                >
+                  <ImageIcon className="h-4 w-4" />
+                </Button>
+              </ToggleGroup>
+            </div>
+
+            <div
+              ref={editorRef}
+              contentEditable
+              className="min-h-[300px] w-full resize-none overflow-y-auto rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              role="textbox"
+              aria-multiline="true"
+              tabIndex={9}
+              style={{
+                overflowWrap: "break-word",
+                wordWrap: "break-word",
+                whiteSpace: "pre-wrap",
+                maxWidth: "100%",
+              }}
+              onInput={() => {
+                setMessageContent(editorRef.current?.innerHTML || "");
+              }}
+            />
+
+            {renderAttachments()}
+            <div className="mt-4 flex justify-between overflow-y-auto">
+              <label>
+                <Button
+                  tabIndex={10}
+                  variant="outline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const fileInput = e.currentTarget.nextElementSibling as HTMLInputElement;
+                    fileInput?.click();
+                  }}
+                >
+                  <Paperclip className="mr-2 h-4 w-4" />
+                  Attach files
+                </Button>
+                <Input type="file" className="hidden" multiple onChange={handleAttachment} />
+              </label>
+              <div className="flex gap-2">
+                <Button
+                  tabIndex={11}
+                  variant="outline"
+                  onClick={() => {
+                    handleDraft();
+                    onClose();
+                  }}
+                >
+                  Save as draft
+                </Button>
+                <Button
+                  tabIndex={12}
+                  onClick={() => {
+                    // TODO: Implement send functionality
+                    onClose();
+                  }}
+                >
+                  Send
+                  <Send className="ml-2 h-3 w-3" />
+                </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </TooltipProvider>
-    </>
+          </div>
+        </CardContent>
+      </Card>
+    </TooltipProvider>
   );
 }
