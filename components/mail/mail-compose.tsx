@@ -399,8 +399,8 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
                 fileInput?.click();
               }}
             >
-              <Paperclip className="mr-2 h-4 w-4" />
-              Attach files
+              <Paperclip className="size-4 md:mr-2" />
+              <p className="hidden md:block">Attach Files</p>
             </Button>
             <Input type="file" className="hidden" multiple onChange={handleAttachment} />
           </label>
@@ -422,8 +422,8 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
                 onClose();
               }}
             >
-              Send
-              <Send className="ml-2 h-3 w-3" />
+              <p className="hidden md:block">Send</p>
+              <Send className="size-4 md:ml-2" />
             </Button>
           </div>
         </div>
