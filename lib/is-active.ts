@@ -3,30 +3,29 @@ export function isActive(
   pathname: string,
   searchParams?: URLSearchParams,
   nested = true,
+  baseUrl: string = "http://localhost",
 ): boolean {
-  // Remove query parameters and trailing slashes from URL & pathname
-  const [baseUrl] = url.split("?");
-  const [basePath] = pathname.split("?");
+  const urlObj = new URL(url, baseUrl);
 
-  const cleanUrl = baseUrl.replace(/\/$/, "");
-  const cleanPathname = basePath.replace(/\/$/, "");
+  // Remove trailing slashes for clean comparison
+  const cleanPath = pathname.replace(/\/$/, "");
+  const cleanUrl = urlObj.pathname.replace(/\/$/, "");
 
   // Check if paths match exactly or allow nested paths
-  if (cleanPathname !== cleanUrl && !(nested && cleanPathname.startsWith(`${cleanUrl}/`))) {
+  if (cleanPath !== cleanUrl && !(nested && cleanPath.startsWith(`${cleanUrl}/`))) {
     return false;
   }
 
-  // If no searchParams provided, skip query checking
+  // If no searchParams provided, return true as path is already verified
   if (!searchParams) return true;
 
-  // Convert URL's query string into a `URLSearchParams` object
-  const urlParams = new URLSearchParams(url.split("?")[1] || "");
+  // Extract query parameters from URL
+  const urlParams = urlObj.searchParams;
+  const currentParams = new URLSearchParams(searchParams);
 
   // Ensure all query parameters in `url` exist in `searchParams`
   for (const [key, value] of urlParams.entries()) {
-    if (searchParams.get(key) !== value) {
-      return false;
-    }
+    if (currentParams.get(key) !== value) return false;
   }
 
   return true;

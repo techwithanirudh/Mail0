@@ -105,7 +105,7 @@ export function SidebarContent({ items }: SidebarContentProps) {
                           tooltip={item.title}
                           className={cn(
                             "flex items-center",
-                            (item.isActive || isActive(item.url, pathname)) &&
+                            (item.isActive || isActive(item.url, pathname, searchParams)) &&
                               "bg-accent text-accent-foreground",
                           )}
                         >
