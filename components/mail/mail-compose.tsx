@@ -388,7 +388,7 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
         />
 
         {renderAttachments()}
-        <div className="my-4 flex justify-between overflow-y-auto">
+        <div className="my-4 flex justify-between gap-2 overflow-y-auto">
           <label>
             <Button
               tabIndex={10}
