@@ -67,11 +67,6 @@ export const navigationConfig: Record<string, NavConfig> = {
             url: "/mail/archive",
             icon: ArchiveIcon,
           },
-        ],
-      },
-      {
-        title: "Categories",
-        items: [
           {
             title: "Social",
             url: "/mail/inbox?category=social",
@@ -96,11 +91,6 @@ export const navigationConfig: Record<string, NavConfig> = {
             icon: CartIcon,
             badge: 8,
           },
-        ],
-      },
-      {
-        title: "Advanced",
-        items: [
           {
             title: "Settings",
             url: "/settings",
@@ -108,6 +98,45 @@ export const navigationConfig: Record<string, NavConfig> = {
           },
         ],
       },
+      // {
+      //   title: "Categories",
+      //   items: [
+      //     {
+      //       title: "Social",
+      //       url: "/mail/inbox?category=social",
+      //       icon: UsersIcon,
+      //       badge: 972,
+      //     },
+      //     {
+      //       title: "Updates",
+      //       url: "/mail/inbox?category=updates",
+      //       icon: BellIcon,
+      //       badge: 342,
+      //     },
+      //     {
+      //       title: "Forums",
+      //       url: "/mail/inbox?category=forums",
+      //       icon: MessageCircleIcon,
+      //       badge: 128,
+      //     },
+      //     {
+      //       title: "Shopping",
+      //       url: "/mail/inbox?category=shopping",
+      //       icon: CartIcon,
+      //       badge: 8,
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: "Advanced",
+      //   items: [
+      //     {
+      //       title: "Settings",
+      //       url: "/settings",
+      //       icon: SettingsGearIcon,
+      //     },
+      //   ],
+      // },
     ],
   },
   settings: {
