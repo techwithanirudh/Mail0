@@ -16,9 +16,6 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-
-import { DialogTitle } from "@/components/ui/dialog";
-
 interface MailComposeProps {
   onClose: () => void;
   replyTo?: {
@@ -27,7 +24,7 @@ interface MailComposeProps {
   };
 }
 
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 
@@ -37,7 +34,6 @@ import { draftsAtom } from "@/store/draftStates";
 import { useQueryState } from "nuqs";
 
 import { TooltipPortal } from "@radix-ui/react-tooltip";
-import { CredenzaClose } from "../ui/responsive-modal";
 import { Badge } from "../ui/badge";
 import { useAtom } from "jotai";
 
