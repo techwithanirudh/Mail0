@@ -291,7 +291,7 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
 
   return (
     <div>
-      <div className="grid gap-2 overflow-hidden">
+      <div className="grid gap-2">
         <div className="relative">
           <Input
             tabIndex={1}
@@ -392,7 +392,7 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
         />
 
         {renderAttachments()}
-        <div className="overflow-y-atuo mt-4 flex justify-between">
+        <div className="my-4 flex justify-between overflow-y-auto">
           <label>
             <Button
               tabIndex={10}
