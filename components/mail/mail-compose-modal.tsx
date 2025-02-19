@@ -18,7 +18,7 @@ export default function MailComposeModal() {
 
   return (
     <Credenza open={isOpen} onOpenChange={setIsOpen}>
-      <CredenzaContent className="md:min-w-[500px]">
+      <CredenzaContent className="p-0 md:min-w-[500px]">
         <VisuallyHidden>
           <CredenzaHeader>
             <CredenzaTitle>Compose</CredenzaTitle>
@@ -27,11 +27,6 @@ export default function MailComposeModal() {
         <CredenzaBody>
           <MailCompose onClose={close} />
         </CredenzaBody>
-        <CredenzaFooter>
-          <CredenzaClose asChild>
-            <button>Close</button>
-          </CredenzaClose>
-        </CredenzaFooter>
       </CredenzaContent>
     </Credenza>
   );
