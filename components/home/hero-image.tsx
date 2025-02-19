@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeroImage = () => {
   return (
-    <div className="mx-auto mt-8 w-full max-w-5xl overflow-hidden px-4">
+    <div className="mx-auto mt-8 min-h-[700px] w-full max-w-5xl overflow-y-auto px-4">
       <div className="relative items-center justify-center rounded-xl border border-muted bg-sidebar/50 p-1 shadow-xl shadow-background backdrop-blur-lg md:flex md:animate-move-up md:p-5">
         <Image
           src="/homepage-image.png"
