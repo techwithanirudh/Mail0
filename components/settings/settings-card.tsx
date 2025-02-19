@@ -22,7 +22,7 @@ export function SettingsCard({
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent className="space-y-6 overflow-y-auto px-0">{children}</CardContent>
-      {footer && <div className="px-3 py-4">{footer}</div>}
+      {footer && <div className="py-4">{footer}</div>}
     </Card>
   );
 }
