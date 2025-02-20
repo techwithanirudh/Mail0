@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRef, useEffect, useMemo } from "react";
-import { isActive } from "@/lib/is-active";
+import { useRef, useCallback } from "react";
 import * as React from "react";
 import Link from "next/link";
 
@@ -12,11 +11,10 @@ import {
   SidebarMenuItem,
   SidebarGroupLabel,
   SidebarMenuButton,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { BASE_URL } from "@/lib/constants";
+import { isActive } from "@/lib/is-active";
 import { cn } from "@/lib/utils";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
@@ -34,6 +32,9 @@ interface NavItemProps {
   isExpanded?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   suffix?: React.ComponentType<IconProps>;
+  isBackButton?: boolean;
+  isSettingsButton?: boolean;
+  isSettingsPage?: boolean;
 }
 
 interface SidebarContentProps {
@@ -53,18 +54,34 @@ export function SidebarContent({ items }: SidebarContentProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const iconRefs = useRef<{ [key: string]: React.RefObject<IconRefType | null> }>({});
+  const getHref = useCallback(
+    (item: NavItemProps) => {
+      const currentFrom = searchParams.get("from");
+      const category = searchParams.get("category");
 
-  // Initialize refs for all items
-  useEffect(() => {
-    items.forEach((section) => {
-      section.items.forEach((item) => {
-        if (item.icon && !iconRefs.current[item.title]) {
-          iconRefs.current[item.title] = React.createRef<IconRefType>();
-        }
-      });
-    });
-  }, [items]);
+      if (item.isSettingsButton) {
+        const currentPath = category
+          ? `${pathname}?category=${encodeURIComponent(category)}`
+          : pathname;
+        return `${item.url}?from=${encodeURIComponent(currentPath)}`;
+      }
+
+      if (item.isSettingsPage && currentFrom) {
+        return `${item.url}?from=${encodeURIComponent(currentFrom)}`;
+      }
+
+      if (item.isBackButton) {
+        return currentFrom ? decodeURIComponent(currentFrom) : "/mail";
+      }
+
+      if (category && item.url.includes("category=")) {
+        return item.url;
+      }
+
+      return item.url;
+    },
+    [pathname, searchParams],
+  );
 
   return (
     <SidebarGroup className="space-y-2.5 py-0">
@@ -82,44 +99,13 @@ export function SidebarContent({ items }: SidebarContentProps) {
                 )}
               </CollapsibleTrigger>
               <div className="space-y-1">
-                {section.items.map((item, j) => (
-                  <Collapsible defaultOpen={item.isActive} key={j}>
-                    <CollapsibleTrigger asChild>
-                      <Link
-                        href={item.url}
-                        onClick={item.onClick}
-                        onMouseEnter={() => {
-                          const iconRef = iconRefs.current[item.title]?.current;
-                          if (iconRef?.startAnimation) {
-                            iconRef.startAnimation();
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          const iconRef = iconRefs.current[item.title]?.current;
-                          if (iconRef?.stopAnimation) {
-                            iconRef.stopAnimation();
-                          }
-                        }}
-                      >
-                        <SidebarMenuButton
-                          tooltip={item.title}
-                          className={cn(
-                            "flex items-center",
-                            (item.isActive || isActive(item.url, pathname, searchParams)) &&
-                              "bg-accent text-accent-foreground",
-                          )}
-                        >
-                          {item.icon && (
-                            <item.icon
-                              ref={iconRefs.current[item.title]}
-                              className="relative mr-3 h-3 w-3.5"
-                            />
-                          )}
-                          <p className="mt-0.5 text-[13px]">{item.title}</p>
-                        </SidebarMenuButton>
-                      </Link>
-                    </CollapsibleTrigger>
-                  </Collapsible>
+                {section.items.map((item) => (
+                  <NavItem
+                    key={item.url}
+                    {...item}
+                    isActive={isActive(item.url)}
+                    href={getHref(item)}
+                  />
                 ))}
               </div>
             </SidebarMenuItem>
@@ -127,5 +113,29 @@ export function SidebarContent({ items }: SidebarContentProps) {
         ))}
       </SidebarMenu>
     </SidebarGroup>
+  );
+}
+
+function NavItem(item: NavItemProps & { href: string }) {
+  const iconRef = useRef<IconRefType>(null);
+  return (
+    <Collapsible defaultOpen={item.isActive}>
+      <CollapsibleTrigger asChild>
+        <Link
+          href={item.href}
+          onClick={item.onClick}
+          onMouseEnter={() => iconRef.current?.startAnimation?.()}
+          onMouseLeave={() => iconRef.current?.stopAnimation?.()}
+        >
+          <SidebarMenuButton
+            tooltip={item.title}
+            className={cn("flex items-center", item.isActive && "bg-accent text-accent-foreground")}
+          >
+            {item.icon && <item.icon ref={iconRef} className="relative mr-3 h-3 w-3.5" />}
+            <p className="mt-0.5 text-[13px]">{item.title}</p>
+          </SidebarMenuButton>
+        </Link>
+      </CollapsibleTrigger>
+    </Collapsible>
   );
 }

@@ -1,3 +1,5 @@
+import { BASE_URL } from "./constants";
+
 export function isActive(
   url: string,
   pathname: string,
@@ -5,7 +7,7 @@ export function isActive(
   nested = true,
   baseUrl: string = "http://localhost",
 ): boolean {
-  const urlObj = new URL(url, baseUrl);
+  const urlObj = new URL(url, baseUrl ?? BASE_URL);
 
   // Remove trailing slashes for clean comparison
   const cleanPath = pathname.replace(/\/$/, "");

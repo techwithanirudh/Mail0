@@ -21,6 +21,7 @@ interface NavItem {
   icon: React.ComponentType<any>;
   badge?: number;
   isBackButton?: boolean;
+  isSettingsButton?: boolean;
 }
 
 interface NavSection {
@@ -93,8 +94,9 @@ export const navigationConfig: Record<string, NavConfig> = {
           },
           {
             title: "Settings",
-            url: "/settings",
+            url: "/settings/general",
             icon: SettingsGearIcon,
+            isSettingsButton: true,
           },
         ],
       },
@@ -186,7 +188,10 @@ export const navigationConfig: Record<string, NavConfig> = {
             url: "/settings/notifications",
             icon: BellIcon,
           },
-        ],
+        ].map((item) => ({
+          ...item,
+          isSettingsPage: true,
+        })),
       },
     ],
   },

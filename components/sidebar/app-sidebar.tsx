@@ -1,9 +1,9 @@
 "use client";
 
-import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
+import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar";
+import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
 import { SidebarContent as AppSidebarContent } from "./sidebar-content";
-import { SidebarThemeSwitch } from "../theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { navigationConfig } from "@/config/navigation";
 import { motion, AnimatePresence } from "motion/react";
@@ -14,7 +14,6 @@ import React, { useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
-import { useTheme } from "next-themes";
 import { NavUser } from "./nav-user";
 import Image from "next/image";
 import useSWR from "swr";
@@ -26,12 +25,12 @@ const fetchStats = async () => {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: stats } = useSWR<number[]>("/api/v1/mail/count", fetchStats);
   const pathname = usePathname();
-  const { theme } = useTheme();
+
   const { currentSection, navItems } = useMemo(() => {
-    const section = Object.entries(navigationConfig)
-      .filter(([, config]) => pathname.startsWith(config.path))
-      .sort((a, b) => b[1].path.length - a[1].path.length)
-      .find(([, config]) => pathname !== config.path);
+    // Find which section we're in based on the pathname
+    const section = Object.entries(navigationConfig).find(([, config]) =>
+      pathname.startsWith(config.path),
+    );
 
     const currentSection: string = section ? section[0] : "mail";
     const items = [...navigationConfig[currentSection].sections];
@@ -54,13 +53,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props} className="flex flex-col items-center pl-1">
       <div className="flex w-full flex-col">
         <SidebarHeader className="flex flex-col gap-2 p-2">
-          <Image
-            src={theme === "dark" ? "/white-icon.svg" : "/black-icon.svg"}
-            className="mt-3"
-            alt="Logo"
-            width={28}
-            height={28}
-          />
+          <div className="mt-3">
+            <Image
+              src="/white-icon.svg"
+              data-hide-on-theme="light"
+              alt="Logo"
+              width={28}
+              height={28}
+            />
+            <Image
+              src="/black-icon.svg"
+              data-hide-on-theme="dark"
+              alt="Logo"
+              width={28}
+              height={28}
+            />
+          </div>
           <NavUser />
           <AnimatePresence mode="wait">
             {showComposeButton && (
@@ -106,19 +114,9 @@ function ComposeButton() {
   return (
     <Button
       onClick={open}
-      className="mt-1 h-8 w-[calc(100%)] border bg-secondary text-primary shadow shadow-black/5 hover:bg-secondary/90"
-      onMouseEnter={() => {
-        const icon = iconRef.current;
-        if (icon?.startAnimation) {
-          icon.startAnimation();
-        }
-      }}
-      onMouseLeave={() => {
-        const icon = iconRef.current;
-        if (icon?.stopAnimation) {
-          icon.stopAnimation();
-        }
-      }}
+      className="relative isolate mt-1 h-8 w-[calc(100%)] overflow-hidden whitespace-nowrap bg-secondary text-primary shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.black/0.05)] ring-1 ring-black/5 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:from-white/20 before:opacity-50 before:transition-opacity hover:bg-secondary/90 hover:before:opacity-100 dark:shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.black/0.05)] dark:ring-white/5"
+      onMouseEnter={() => () => iconRef.current?.startAnimation?.()}
+      onMouseLeave={() => () => iconRef.current?.stopAnimation?.()}
     >
       {state === "collapsed" && !isMobile ? (
         <SquarePenIcon ref={iconRef} className="size-4" />
