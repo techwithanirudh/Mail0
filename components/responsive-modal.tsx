@@ -27,7 +27,7 @@ export default function ResponsiveModal({
             <DialogDescription>Modal content</DialogDescription>
           </DialogHeader>
         </VisuallyHidden>
-        <DialogContent className="hide-scrollbar w-full overflow-y-auto border-none p-0 sm:max-w-lg">
+        <DialogContent className="bordr-none hide-scrollbar w-full overflow-y-auto p-0 sm:max-w-lg">
           {children}
         </DialogContent>
       </Dialog>
