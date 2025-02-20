@@ -103,7 +103,7 @@ export function SidebarContent({ items }: SidebarContentProps) {
                   <NavItem
                     key={item.url}
                     {...item}
-                    isActive={isActive(item.url)}
+                    isActive={isActive(item.url, pathname, searchParams)}
                     href={getHref(item)}
                   />
                 ))}
