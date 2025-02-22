@@ -3,30 +3,7 @@ import { Button } from "@/components/ui/button";
 import Lanyard from "@/components/ui/lanyard";
 import { motion } from "motion/react";
 import { Share2 } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
-
 const Index = () => {
-  const [userId] = useState(`${Math.floor(Math.random() * 1000)}`);
-  const [userName] = useState("New Member");
-
-  const handleShare = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "Joined the Waitlist!",
-          text: "I just joined the exclusive waitlist!",
-          url: window.location.href,
-        });
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        toast.success("Link copied to clipboard!");
-      }
-    } catch (error) {
-      console.error("Error sharing:", error);
-    }
-  };
-
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center bg-background">
       {/* Grid Content */}
@@ -49,7 +26,6 @@ const Index = () => {
             </div>
 
             <Button
-              onClick={handleShare}
               variant="outline"
               className="group transition-colors hover:bg-primary hover:text-white"
             >
@@ -81,7 +57,7 @@ const Index = () => {
         transition={{ duration: 0.6 }}
         className="pointer-events-auto absolute inset-0 z-10 flex items-center justify-center"
       >
-        <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+        <Lanyard />
       </motion.div>
     </div>
   );
