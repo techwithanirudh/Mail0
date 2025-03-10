@@ -1,4 +1,5 @@
 'use client'
+import { useTheme } from "next-themes";
 import React, { useRef, useEffect } from "react";
 
 type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
@@ -27,6 +28,8 @@ const Marquee: React.FC<MarqueeProps> = ({
   textColor = "#999",
   textRotation = -45,
 }) => {
+  const { resolvedTheme: theme } = useTheme();
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | null>(null);
   const numSquaresX = useRef<number>(0);
@@ -59,13 +62,13 @@ const Marquee: React.FC<MarqueeProps> = ({
 
       const fontSize = Math.floor(squareSize * 0.65);
       ctx.font = `${fontSize}px Pixy`;
-      
+
       for (let x = startX; x < canvas.width + squareSize; x += squareSize) {
         for (let y = startY; y < canvas.height + squareSize; y += squareSize) {
           const squareX = x - (gridOffset.current.x % squareSize);
           const squareY = y - (gridOffset.current.y % squareSize);
-          
-          const isHovered = 
+
+          const isHovered =
             hoveredSquareRef.current &&
             Math.floor((x - startX) / squareSize) === hoveredSquareRef.current.x &&
             Math.floor((y - startY) / squareSize) === hoveredSquareRef.current.y;
@@ -74,19 +77,19 @@ const Marquee: React.FC<MarqueeProps> = ({
             ctx.fillStyle = hoverFillColor;
             ctx.fillRect(squareX, squareY, squareSize, squareSize);
           }
-          
+
           ctx.save();
-          
+
           ctx.translate(squareX + squareSize / 2, squareY + squareSize / 2);
-          
+
           ctx.rotate(textRotation * Math.PI / 180);
-          
+
           ctx.fillStyle = isHovered ? "#fff" : textColor;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          
+
           ctx.fillText("404", 0, 0);
-          
+
           ctx.restore();
         }
       }
@@ -100,8 +103,14 @@ const Marquee: React.FC<MarqueeProps> = ({
         canvas.height / 2,
         Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
       );
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-      gradient.addColorStop(1, "#060606");
+
+      if (theme === "dark") {
+        gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+        gradient.addColorStop(1, "#060606");
+      } else if (theme === "light") {
+        gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        gradient.addColorStop(1, "#F9F9F9");
+      }
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
