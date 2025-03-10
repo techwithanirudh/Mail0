@@ -18,7 +18,7 @@ export function NotFound() {
         />
       </div>
 
-      <div className="absolute inset-0 left-4">
+      <div className="absolute top-0 left-4">
         <Link
           href="/"
           className={cn("tracking-tighter uppercase font-pixel text-6xl font-bold")}
