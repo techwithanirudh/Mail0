@@ -8,7 +8,7 @@ interface GridOffset {
   y: number;
 }
 
-interface SquaresProps {
+interface MarqueeProps {
   direction?: "diagonal" | "up" | "right" | "down" | "left";
   speed?: number;
   borderColor?: CanvasStrokeStyle;
@@ -18,7 +18,7 @@ interface SquaresProps {
   textRotation?: number;
 }
 
-const Squares: React.FC<SquaresProps> = ({
+const Marquee: React.FC<MarqueeProps> = ({
   direction = "right",
   speed = 1,
   borderColor = "#999",
@@ -188,4 +188,4 @@ const Squares: React.FC<SquaresProps> = ({
   );
 };
 
-export default Squares;
+export default Marquee;

@@ -1,16 +1,15 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import Squares from "./square"
+import Marquee from "./_components/marquee"
 import Image from 'next/image';
 import blackIcon from '@/public/black-icon.svg';
 import whiteIcon from '@/public/white-icon.svg';
-
 
 export function NotFound() {
   return (
     <div className="relative flex w-full items-center justify-center px-4 md:px-0 overflow-hidden ">
       <div className="absolute w-full h-full">
-        <Squares
+        <Marquee
           direction="diagonal"
           speed={0.5}
           squareSize={40}
