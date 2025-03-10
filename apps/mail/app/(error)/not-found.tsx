@@ -38,12 +38,14 @@ export function NotFound() {
               alt="0.email Logo"
               sizes="100vw"
               className="dark:hidden h-auto w-[25vw]"
+              priority
             />
             <Image
               src={whiteIcon}
               alt="0.email Logo"
               sizes="100vw"
               className="hidden dark:block h-auto w-[25vw]"
+              priority
             />
           </div>
           <div className="text-[35vw]">
