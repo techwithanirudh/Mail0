@@ -1,7 +1,5 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import Squares from "./square"
 import Image from 'next/image';
 import blackIcon from '@/public/black-icon.svg';
@@ -20,7 +18,16 @@ export function NotFound() {
           hoverFillColor="#222"
         />
       </div>
-      <div className="flex flex-col items-center justify-center text-center md:flex-row md:text-left  z-10 tracking-tightest">
+
+      <div className="absolute inset-0 left-4">
+        <Link
+          href="/"
+          className={cn("tracking-tighter uppercase font-pixel text-6xl font-bold")}
+        >
+          {"<<<"} Home
+        </Link>
+      </div>
+      <div className="flex flex-col items-center justify-center text-center z-10 tracking-tightest">
         <div className="flex font-bold items-center justify-center gap-2 relative select-none">
           <div className="text-[35vw]">
             4
