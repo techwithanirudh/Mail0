@@ -1,7 +1,3 @@
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import Squares from "./square"
 import Image from 'next/image';
 import blackIcon from '@/public/black-icon.svg';
