@@ -1,4 +1,5 @@
 'use client'
+import { useReducedMotion } from "motion/react";
 import { useTheme } from "next-themes";
 import React, { useRef, useEffect } from "react";
 
@@ -21,6 +22,7 @@ const Marquee: React.FC<MarqueeProps> = ({
   textRotation = -45,
 }) => {
   const { resolvedTheme: theme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | null>(null);
@@ -46,7 +48,7 @@ const Marquee: React.FC<MarqueeProps> = ({
 
     const getThemeColors = () => {
       const isDark = theme === "dark";
-      
+
       return {
         textColor: isDark ? "#999" : "#555",
         hoverFillColor: isDark ? "#222" : "#e0e0e0",
@@ -60,14 +62,14 @@ const Marquee: React.FC<MarqueeProps> = ({
       if (!ctx) return;
 
       const colors = getThemeColors();
-      
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
       const fontSize = Math.floor(squareSize * 0.65);
-      ctx.font = `${fontSize}px Pixy`;
+      ctx.font = `${fontSize}px Pixy, monospace, sans-serif`;
 
       for (let x = startX; x < canvas.width + squareSize; x += squareSize) {
         for (let y = startY; y < canvas.height + squareSize; y += squareSize) {
@@ -118,6 +120,12 @@ const Marquee: React.FC<MarqueeProps> = ({
     };
 
     const updateAnimation = () => {
+      if (shouldReduceMotion) {
+        drawGrid();
+        requestRef.current = requestAnimationFrame(updateAnimation);
+        return;
+      }
+
       const effectiveSpeed = Math.max(speed, 0.1);
       switch (direction) {
         case "right":

@@ -19,13 +19,13 @@ export function NotFound() {
       <div className="absolute top-0 left-4">
         <Link
           href="/"
-          className={cn("tracking-tighter uppercase font-pixel text-6xl font-bold")}
+          className={cn("tracking-tighter uppercase font-pixel text-6xl font-bold hover:opacity-80 focus:outline-none focus:underline transition-opacity")}
         >
           {"<<<"} Home
         </Link>
       </div>
       <div className="flex flex-col items-center justify-center text-center z-10 tracking-tightest">
-        <div className="flex font-bold items-center justify-center gap-2 relative select-none">
+        <div className="flex font-bold items-center justify-center gap-2 relative select-none text-[#151517] dark:text-white">
           <div className="text-[35vw]">
             4
           </div>
@@ -33,14 +33,14 @@ export function NotFound() {
             <Image
               src={blackIcon}
               alt="0"
-              sizes="100vw"
+              sizes="25vw"
               className="dark:hidden h-auto w-[25vw]"
               priority
             />
             <Image
               src={whiteIcon}
               alt="0"
-              sizes="100vw"
+              sizes="25vw"
               className="hidden dark:block h-auto w-[25vw]"
               priority
             />
