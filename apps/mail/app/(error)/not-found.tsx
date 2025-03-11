@@ -50,10 +50,6 @@ export function NotFound() {
           </div>
         </div>
       </div>
-      {/* <div className="absolute">
-        <a>Home</a>
-      </div> */}
     </div>
-
   );
 }
