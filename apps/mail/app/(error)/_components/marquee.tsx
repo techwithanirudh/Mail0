@@ -34,7 +34,7 @@ const Marquee: React.FC<MarqueeProps> = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -58,9 +58,14 @@ const Marquee: React.FC<MarqueeProps> = ({
       };
     };
 
-    const drawSquare = (x: number, y: number, isHovered: boolean, colors: ReturnType<typeof getThemeColors>) => {
+    const drawSquare = (
+      x: number,
+      y: number,
+      isHovered: boolean,
+      colors: ReturnType<typeof getThemeColors>,
+    ) => {
       ctx.save();
-      
+
       if (isHovered) {
         ctx.fillStyle = colors.hoverFillColor;
         ctx.fillRect(x, y, squareSize, squareSize);
@@ -68,14 +73,14 @@ const Marquee: React.FC<MarqueeProps> = ({
 
       ctx.translate(x + squareSize / 2, y + squareSize / 2);
       ctx.rotate((textRotation * Math.PI) / 180);
-      
+
       const fontSize = Math.floor(squareSize * 0.65);
       ctx.font = `${fontSize}px Pixy, monospace, sans-serif`;
       ctx.fillStyle = isHovered ? colors.hoverTextColor : colors.textColor;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("404", 0, 0);
-      
+
       ctx.restore();
     };
 
@@ -86,7 +91,7 @@ const Marquee: React.FC<MarqueeProps> = ({
         0,
         canvas.width / 2,
         canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
+        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
       );
 
       gradient.addColorStop(0, colors.vignetteStart);
@@ -127,7 +132,7 @@ const Marquee: React.FC<MarqueeProps> = ({
       }
 
       const effectiveSpeed = Math.max(speed, 0.1);
-      
+
       switch (direction) {
         case "right":
           gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
@@ -165,7 +170,11 @@ const Marquee: React.FC<MarqueeProps> = ({
       };
     };
 
-    resizeCanvas();    
+    const handleMouseLeave = () => {
+      hoveredSquare.current = null;
+    };
+
+    resizeCanvas();
     const handleResize = () => {
       resizeCanvas();
       drawGrid();
@@ -173,9 +182,7 @@ const Marquee: React.FC<MarqueeProps> = ({
 
     window.addEventListener("resize", handleResize);
     canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseleave", () => {
-      hoveredSquare.current = null;
-    });
+    canvas.addEventListener("mouseleave", handleMouseLeave);
 
     if (!shouldReduceMotion) {
       animationRef.current = requestAnimationFrame(updateAnimation);
@@ -186,10 +193,8 @@ const Marquee: React.FC<MarqueeProps> = ({
     return () => {
       window.removeEventListener("resize", handleResize);
       canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseleave", () => {
-        hoveredSquare.current = null;
-      });
-      
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
+
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
