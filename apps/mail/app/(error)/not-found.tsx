@@ -25,19 +25,19 @@ export function NotFound() {
       <div className="tracking-tightest z-10 flex flex-col items-center justify-center text-center">
         <div className="relative flex select-none items-center justify-center gap-2 font-bold text-[#151517] dark:text-white">
           <h1 className="text-[35vw]">4</h1>
-          <div className="size-fill pointer-events-none flex items-center gap-2">
+          <div className="size-fill flex items-center gap-2">
             <Image
               src={blackIcon}
               alt="0"
               sizes="25vw"
-              className="h-auto w-[25vw] dark:hidden"
+              className="h-auto w-[25vw] transition-transform duration-300 hover:rotate-90 dark:hidden drag-none"
               priority
             />
             <Image
               src={whiteIcon}
               alt="0"
               sizes="25vw"
-              className="hidden h-auto w-[25vw] dark:block"
+              className="hidden h-auto w-[25vw] transition-transform duration-300 hover:rotate-90 dark:block drag-none"
               priority
             />
           </div>
