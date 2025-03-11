@@ -16,7 +16,7 @@ export function NotFound() {
         <Link
           href="/"
           className={cn(
-            "font-pixel text-4xl font-bold uppercase tracking-tighter transition-opacity hover:opacity-80 focus:underline focus:outline-none md:text-5xl lg:text-6xl",
+            "font-pixel text-4xl font-bold uppercase tracking-tighter transition-opacity hover:opacity-80 focus:outline-none md:text-5xl lg:text-6xl",
           )}
         >
           {"<<<"} Home
