@@ -1,53 +1,47 @@
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import Marquee from "./_components/marquee"
-import Image from 'next/image';
-import blackIcon from '@/public/black-icon.svg';
-import whiteIcon from '@/public/white-icon.svg';
+import blackIcon from "@/public/black-icon.svg";
+import whiteIcon from "@/public/white-icon.svg";
+import Marquee from "./_components/marquee";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 
 export function NotFound() {
   return (
-    <div className="relative flex w-full items-center justify-center px-4 md:px-0 overflow-hidden ">
-      <div className="absolute w-full h-full">
-        <Marquee
-          direction="diagonal"
-          speed={0.5}
-          squareSize={40}
-        />
+    <div className="relative flex w-full items-center justify-center overflow-hidden px-4 md:px-0">
+      <div className="absolute h-full w-full">
+        <Marquee direction="diagonal" speed={0.5} squareSize={40} />
       </div>
 
-      <div className="absolute top-0 left-4">
+      <div className="absolute left-4 top-0">
         <Link
           href="/"
-          className={cn("tracking-tighter uppercase font-pixel text-6xl font-bold hover:opacity-80 focus:outline-none focus:underline transition-opacity")}
+          className={cn(
+            "font-pixel text-4xl font-bold uppercase tracking-tighter transition-opacity hover:opacity-80 focus:underline focus:outline-none md:text-5xl lg:text-6xl",
+          )}
         >
           {"<<<"} Home
         </Link>
       </div>
-      <div className="flex flex-col items-center justify-center text-center z-10 tracking-tightest">
-        <div className="flex font-bold items-center justify-center gap-2 relative select-none text-[#151517] dark:text-white">
-          <div className="text-[35vw]">
-            4
-          </div>
-          <div className="flex items-center gap-2 size-fill pointer-events-none">
+      <div className="tracking-tightest z-10 flex flex-col items-center justify-center text-center">
+        <div className="relative flex select-none items-center justify-center gap-2 font-bold text-[#151517] dark:text-white">
+          <h1 className="text-[35vw]">4</h1>
+          <div className="size-fill pointer-events-none flex items-center gap-2">
             <Image
               src={blackIcon}
               alt="0"
               sizes="25vw"
-              className="dark:hidden h-auto w-[25vw]"
+              className="h-auto w-[25vw] dark:hidden"
               priority
             />
             <Image
               src={whiteIcon}
               alt="0"
               sizes="25vw"
-              className="hidden dark:block h-auto w-[25vw]"
+              className="hidden h-auto w-[25vw] dark:block"
               priority
             />
           </div>
-          <div className="text-[35vw]">
-            4
-          </div>
+          <h1 className="text-[35vw]">4</h1>
         </div>
       </div>
     </div>

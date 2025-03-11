@@ -1,7 +1,7 @@
-'use client'
+"use client";
+import React, { useRef, useEffect } from "react";
 import { useReducedMotion } from "motion/react";
 import { useTheme } from "next-themes";
-import React, { useRef, useEffect } from "react";
 
 interface GridOffset {
   x: number;
@@ -54,7 +54,7 @@ const Marquee: React.FC<MarqueeProps> = ({
         hoverFillColor: isDark ? "#222" : "#e0e0e0",
         hoverTextColor: isDark ? "#fff" : "#000",
         vignetteStart: isDark ? "rgba(0, 0, 0, 0)" : "rgba(255, 255, 255, 0)",
-        vignetteEnd: isDark ? "#060606" : "#F9F9F9"
+        vignetteEnd: isDark ? "#060606" : "#F9F9F9",
       };
     };
 
@@ -90,11 +90,11 @@ const Marquee: React.FC<MarqueeProps> = ({
 
           ctx.translate(squareX + squareSize / 2, squareY + squareSize / 2);
 
-          ctx.rotate(textRotation * Math.PI / 180);
+          ctx.rotate((textRotation * Math.PI) / 180);
 
           ctx.fillStyle = isHovered ? colors.hoverTextColor : colors.textColor;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
 
           ctx.fillText("404", 0, 0);
 
@@ -109,7 +109,7 @@ const Marquee: React.FC<MarqueeProps> = ({
         0,
         canvas.width / 2,
         canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
+        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
       );
 
       gradient.addColorStop(0, colors.vignetteStart);
@@ -129,26 +129,20 @@ const Marquee: React.FC<MarqueeProps> = ({
       const effectiveSpeed = Math.max(speed, 0.1);
       switch (direction) {
         case "right":
-          gridOffset.current.x =
-            (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
           break;
         case "left":
-          gridOffset.current.x =
-            (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x = (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
           break;
         case "up":
-          gridOffset.current.y =
-            (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y = (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
           break;
         case "down":
-          gridOffset.current.y =
-            (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
         case "diagonal":
-          gridOffset.current.x =
-            (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
-          gridOffset.current.y =
-            (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
         default:
           break;
@@ -166,12 +160,8 @@ const Marquee: React.FC<MarqueeProps> = ({
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
-      const hoveredSquareX = Math.floor(
-        (mouseX + gridOffset.current.x - startX) / squareSize
-      );
-      const hoveredSquareY = Math.floor(
-        (mouseY + gridOffset.current.y - startY) / squareSize
-      );
+      const hoveredSquareX = Math.floor((mouseX + gridOffset.current.x - startX) / squareSize);
+      const hoveredSquareY = Math.floor((mouseY + gridOffset.current.y - startY) / squareSize);
 
       if (
         !hoveredSquareRef.current ||
@@ -201,7 +191,9 @@ const Marquee: React.FC<MarqueeProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full border-none block"
+      className="block h-full w-full border-none"
+      aria-label="Decorative animated grid background"
+      role="img"
     ></canvas>
   );
 };
