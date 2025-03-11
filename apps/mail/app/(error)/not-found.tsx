@@ -13,8 +13,6 @@ export function NotFound() {
           direction="diagonal"
           speed={0.5}
           squareSize={40}
-          borderColor="#333"
-          hoverFillColor="#222"
         />
       </div>
 
@@ -34,14 +32,14 @@ export function NotFound() {
           <div className="flex items-center gap-2 size-fill pointer-events-none">
             <Image
               src={blackIcon}
-              alt="0.email Logo"
+              alt="0"
               sizes="100vw"
               className="dark:hidden h-auto w-[25vw]"
               priority
             />
             <Image
               src={whiteIcon}
-              alt="0.email Logo"
+              alt="0"
               sizes="100vw"
               className="hidden dark:block h-auto w-[25vw]"
               priority
