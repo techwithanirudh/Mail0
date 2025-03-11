@@ -1,61 +1,70 @@
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import Marquee from "./_components/marquee"
-import Image from 'next/image';
-import blackIcon from '@/public/black-icon.svg';
-import whiteIcon from '@/public/white-icon.svg';
+"use client";
+
+import { Button, buttonVariants } from "@/components/ui/button";
+import blackIcon from "@/public/black-icon.svg";
+import whiteIcon from "@/public/white-icon.svg";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Marquee from "./_components/marquee";
 
 export function NotFound() {
+  const router = useRouter();
+
+  const back = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
   return (
-    <div className="relative flex w-full items-center justify-center px-4 md:px-0 overflow-hidden ">
-      <div className="absolute w-full h-full">
-        <Marquee
-          direction="diagonal"
-          speed={0.5}
-          squareSize={40}
-          borderColor="#333"
-          hoverFillColor="#222"
-        />
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 md:px-0">
+      <div className="absolute h-full w-full opacity-15">
+        <Marquee direction="diagonal" speed={0.1} squareSize={40} />
       </div>
 
-      <div className="absolute top-0 left-4">
-        <Link
-          href="/"
-          className={cn("tracking-tighter uppercase font-pixel text-6xl font-bold")}
-        >
-          {"<<<"} Home
-        </Link>
-      </div>
-      <div className="flex flex-col items-center justify-center text-center z-10 tracking-tightest">
-        <div className="flex font-bold items-center justify-center gap-2 relative select-none">
-          <div className="text-[35vw]">
-            4
-          </div>
-          <div className="flex items-center gap-2 size-fill pointer-events-none">
-            <Image
-              src={blackIcon}
-              alt="0.email Logo"
-              sizes="100vw"
-              className="dark:hidden h-auto w-[25vw]"
-              priority
-            />
-            <Image
-              src={whiteIcon}
-              alt="0.email Logo"
-              sizes="100vw"
-              className="hidden dark:block h-auto w-[25vw]"
-              priority
-            />
-          </div>
-          <div className="text-[35vw]">
-            4
+      <div className="z-10 flex flex-col items-center justify-center">
+        <div className="flex items-center justify-center">
+          {/* 
+            Sizing ratios:
+            - h1 text: 8.75vw (35/4)
+            - Image width: 6.25vw (25/4)
+            - Negative margin-bottom: 3.125vw ((25/4)/2) for vertical alignment
+          */}
+          <div className="relative -mb-[3.125vw] flex select-none items-center justify-center gap-2 font-bold text-[#151517] dark:text-white">
+            <h1 className="text-[8.75vw]">4</h1>
+            <div className="size-fill flex items-center gap-2">
+              <Image
+                src={blackIcon}
+                alt="0"
+                sizes="6.25vw"
+                className="drag-none h-auto w-[6.25vw] transition-transform duration-300 hover:rotate-90 dark:hidden"
+                priority
+              />
+              <Image
+                src={whiteIcon}
+                alt="0"
+                sizes="6.25vw"
+                className="drag-none hidden h-auto w-[6.25vw] transition-transform duration-300 hover:rotate-90 dark:block"
+                priority
+              />
+            </div>
+            <h1 className="text-[8.75vw]">4</h1>
           </div>
         </div>
-      </div>
-      {/* <div className="absolute">
-        <a>Home</a>
-      </div> */}
-    </div>
 
+        <div className="mt-6 flex w-full flex-col items-center gap-2">
+          <p className="text-muted-foreground text-center text-sm sm:text-base md:text-lg">
+            The page you are looking for does not exist.
+          </p>
+          <Button onClick={back} variant={"link"} size={"lg"}>
+            <ArrowLeft className="mr-2" />
+            Go Back
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }

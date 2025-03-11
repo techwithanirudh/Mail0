@@ -1,8 +1,7 @@
-'use client'
-import { useTheme } from "next-themes";
+"use client";
 import React, { useRef, useEffect } from "react";
-
-type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
+import { useReducedMotion } from "motion/react";
+import { useTheme } from "next-themes";
 
 interface GridOffset {
   x: number;
@@ -12,23 +11,18 @@ interface GridOffset {
 interface MarqueeProps {
   direction?: "diagonal" | "up" | "right" | "down" | "left";
   speed?: number;
-  borderColor?: CanvasStrokeStyle;
   squareSize?: number;
-  hoverFillColor?: CanvasStrokeStyle;
-  textColor?: string;
   textRotation?: number;
 }
 
 const Marquee: React.FC<MarqueeProps> = ({
   direction = "right",
   speed = 1,
-  borderColor = "#999",
   squareSize = 40,
-  hoverFillColor = "#222",
-  textColor = "#999",
   textRotation = -45,
 }) => {
   const { resolvedTheme: theme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | null>(null);
@@ -52,8 +46,22 @@ const Marquee: React.FC<MarqueeProps> = ({
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
+    const getThemeColors = () => {
+      const isDark = theme === "dark";
+
+      return {
+        textColor: isDark ? "#999" : "#555",
+        hoverFillColor: isDark ? "#222" : "#e0e0e0",
+        hoverTextColor: isDark ? "#fff" : "#000",
+        vignetteStart: isDark ? "rgba(0, 0, 0, 0)" : "rgba(255, 255, 255, 0)",
+        vignetteEnd: isDark ? "#060606" : "#F9F9F9",
+      };
+    };
+
     const drawGrid = () => {
       if (!ctx) return;
+
+      const colors = getThemeColors();
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -61,7 +69,7 @@ const Marquee: React.FC<MarqueeProps> = ({
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
       const fontSize = Math.floor(squareSize * 0.65);
-      ctx.font = `${fontSize}px Pixy`;
+      ctx.font = `${fontSize}px Pixy, monospace, sans-serif`;
 
       for (let x = startX; x < canvas.width + squareSize; x += squareSize) {
         for (let y = startY; y < canvas.height + squareSize; y += squareSize) {
@@ -74,7 +82,7 @@ const Marquee: React.FC<MarqueeProps> = ({
             Math.floor((y - startY) / squareSize) === hoveredSquareRef.current.y;
 
           if (isHovered) {
-            ctx.fillStyle = hoverFillColor;
+            ctx.fillStyle = colors.hoverFillColor;
             ctx.fillRect(squareX, squareY, squareSize, squareSize);
           }
 
@@ -82,11 +90,11 @@ const Marquee: React.FC<MarqueeProps> = ({
 
           ctx.translate(squareX + squareSize / 2, squareY + squareSize / 2);
 
-          ctx.rotate(textRotation * Math.PI / 180);
+          ctx.rotate((textRotation * Math.PI) / 180);
 
-          ctx.fillStyle = isHovered ? "#fff" : textColor;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
+          ctx.fillStyle = isHovered ? colors.hoverTextColor : colors.textColor;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
 
           ctx.fillText("404", 0, 0);
 
@@ -101,45 +109,40 @@ const Marquee: React.FC<MarqueeProps> = ({
         0,
         canvas.width / 2,
         canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
+        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
       );
 
-      if (theme === "dark") {
-        gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-        gradient.addColorStop(1, "#060606");
-      } else if (theme === "light") {
-        gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
-        gradient.addColorStop(1, "#F9F9F9");
-      }
+      gradient.addColorStop(0, colors.vignetteStart);
+      gradient.addColorStop(1, colors.vignetteEnd);
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
     const updateAnimation = () => {
+      if (shouldReduceMotion) {
+        drawGrid();
+        requestRef.current = requestAnimationFrame(updateAnimation);
+        return;
+      }
+
       const effectiveSpeed = Math.max(speed, 0.1);
       switch (direction) {
         case "right":
-          gridOffset.current.x =
-            (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
           break;
         case "left":
-          gridOffset.current.x =
-            (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x = (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
           break;
         case "up":
-          gridOffset.current.y =
-            (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y = (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
           break;
         case "down":
-          gridOffset.current.y =
-            (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
         case "diagonal":
-          gridOffset.current.x =
-            (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
-          gridOffset.current.y =
-            (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
         default:
           break;
@@ -157,12 +160,8 @@ const Marquee: React.FC<MarqueeProps> = ({
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
-      const hoveredSquareX = Math.floor(
-        (mouseX + gridOffset.current.x - startX) / squareSize
-      );
-      const hoveredSquareY = Math.floor(
-        (mouseY + gridOffset.current.y - startY) / squareSize
-      );
+      const hoveredSquareX = Math.floor((mouseX + gridOffset.current.x - startX) / squareSize);
+      const hoveredSquareY = Math.floor((mouseY + gridOffset.current.y - startY) / squareSize);
 
       if (
         !hoveredSquareRef.current ||
@@ -187,12 +186,14 @@ const Marquee: React.FC<MarqueeProps> = ({
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [direction, speed, borderColor, hoverFillColor, squareSize, textColor, textRotation]);
+  }, [direction, speed, squareSize, textRotation, theme]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full border-none block"
+      className="block h-full w-full border-none"
+      aria-label="Decorative animated grid background"
+      role="img"
     ></canvas>
   );
 };
