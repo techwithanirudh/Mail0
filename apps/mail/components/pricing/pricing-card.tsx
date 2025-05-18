@@ -116,7 +116,6 @@ export default function PricingCard() {
               className="absolute -right-0 -top-52 h-auto w-full"
               height={535}
               width={535}
-              priority
             />
           </div>
 
